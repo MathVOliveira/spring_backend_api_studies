@@ -1,7 +1,6 @@
 package com.project.backend.dto;
 
 import com.project.backend.entities.UserEntity;
-import org.springframework.beans.BeanUtils;
 
 public class UserDTO {
 
@@ -11,12 +10,32 @@ public class UserDTO {
     private String password;
     private String email;
 
-    // Entity to DTO
-    public UserDTO(UserEntity user) {
-        BeanUtils.copyProperties(user, this);
+    public UserDTO() { }
+
+    private UserDTO(Long id, String name, String login, String email) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.email = email;
     }
 
-    public UserDTO() { }
+    private UserDTO(Long id, String name, String login, String password, String email) {
+        this.id = id;
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+    }
+
+    // Entity to DTO
+    public static UserDTO toUserDTO(UserEntity user) {
+        // BeanUtils.copyProperties(user, this);
+        return new UserDTO(user.getId(), user.getName(), user.getLogin(), user.getEmail());
+    }
+
+    public static UserDTO toUserEntityWithPassword(UserEntity user) {
+        return new UserDTO(user.getId(), user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
+    }
 
     public Long getId() {
         return id;

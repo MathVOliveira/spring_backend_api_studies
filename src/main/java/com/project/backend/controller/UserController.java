@@ -10,14 +10,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin // cors authorization
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    // @Autowired // dependencies injection (auto instantiation)
+    private final UserService userService;
+
+    // constructor injection
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public List<UserDTO> listAll() {
         return userService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO listUserById(@PathVariable("id") Long id) {
+        return userService.listUserById(id);
     }
 
     @PostMapping
@@ -34,7 +45,7 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         // search about ResponseEntity<T>
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }

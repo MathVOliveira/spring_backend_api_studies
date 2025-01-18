@@ -15,7 +15,7 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-//	just for test the server
+	// just for test the server
 	@GetMapping("/hello")
 	public String getHelloTest() {
 		return "It's Working!";

@@ -16,11 +16,10 @@ public class UserService {
 
     // READ
     public List<UserDTO> listAll() {
-        // the function returns a UserDTO list
         // the DB return is a list of UserEntity
         List<UserEntity> users = userRepository.findAll();
         // converts UserEntity list to UserDTO list
-        return users.stream().map(UserDTO::new).toList();
+        return users.stream().map(UserDTO::toUserDTO).toList();
     }
 
     // CREATE
@@ -33,7 +32,7 @@ public class UserService {
     // UPDATE
     public UserDTO updateUser(UserDTO user) {
         UserEntity userEntity = new UserEntity(user);
-        return new UserDTO(userRepository.save(userEntity));
+        return UserDTO.toUserEntityWithPassword(userRepository.save(userEntity));
     }
 
     //DELETE
@@ -44,6 +43,6 @@ public class UserService {
 
     // FIND BY ID
     public UserDTO listUserById(Long id) {
-        return new UserDTO(userRepository.findById(id).get());
+        return UserDTO.toUserDTO(userRepository.findById(id).get());
     }
 }
